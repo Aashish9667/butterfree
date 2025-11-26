@@ -1,19 +1,8 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { OnePokemon } from "../../../lib/api";
 import PokemonCard from "../../../components/pokemon-card";
 
-export default function PokemonPage() {
-  const { name } = useParams();
-
-  const { data } = useQuery({
-    queryKey: ["pokemon", name],
-    queryFn: () => OnePokemon(String(name)),
-  });
-
-  if (!data) return <p>Loading...</p>;
+export default async function PokemonPage({ params }: { params: { name: string } }) {
+  const data = await OnePokemon(params.name);
 
   return (
     <div className="flex justify-center items-center min-h-[500px]">
